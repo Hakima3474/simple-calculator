@@ -12,14 +12,12 @@ function App() {
   const [validPrinciple, setValidPrinciple] = useState(true)
   const [validRate, setValidRate] = useState(true)
   const [validYear, setValidYear] = useState(true)
-  //  /^\d*\.?\*$/
+  //  /^\d*\.?\d*$/
   const validateUserInput = (e) => {
     const { name, value } = e.target
-
     // console.log(`${name}, ${typeof value}`);
     //  console.log(!!value.match(/^[0-9]*.?[0-9]+$/));
-
-    if (!!value.match(/^[0-9]*.?[0-9]+$/)) {
+    if (!!value.match(/^\d*\.?\d+$/)) {
       //valid pattern
 
       if (name === 'principle') {
@@ -57,8 +55,13 @@ function App() {
     setValidYear(true)
   }
 
-  const handleCalculate =(e)=>{
-         e.preventDefault()
+  const handleCalculate = (e) => {
+    e.preventDefault()
+    if (!principle || !rate || !year) {
+      alert("Please fill the Form completly!!! ")
+    } else {
+      setInterest(principle*rate*year / 100)
+    }
   }
 
   return (
@@ -107,9 +110,10 @@ function App() {
 
           <Stack direction={'row'} spacing={2}>
             <Button type='submit' style={{ height: '70px', width: '50%' }} className='bg-dark text-white' variant="contained"
-               disabled={!validPrinciple && !validRate && !validYear?false:true}>CALCULATE</Button>
+              disabled={validPrinciple && validRate && validYear ? false : true}>CALCULATE</Button>
 
-            <Button onClick={handleReset} style={{ height: '70px', width: '50%' }} variant="outlined">RESET</Button>
+            <Button onClick={handleReset} style={{ height: '70px', width: '50%' }}
+              variant="outlined">RESET</Button>
           </Stack>
         </form>
 
